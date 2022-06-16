@@ -1,0 +1,28 @@
+.elementor-control.elementor-control-hotpoint_lookat{
+    display: inline-block;
+}
+.elementor-control.elementor-control-hotpoint_reset{
+    display: inline-block;
+}
+
+.elementor-control.elementor-control-hotpoint_lookat .elementor-button{
+    background-color: #137713;
+}
+.elementor-control.elementor-control-hotpoint_reset .elementor-button{
+    background-color: #8d1616;
+}
+
+.elementor-control-geometry_light_posx.elementor-label-inline > .elementor-control-content > .elementor-control-field > .elementor-control-input-wrapper,
+.elementor-control-geometry_light_posy.elementor-label-inline > .elementor-control-content > .elementor-control-field > .elementor-control-input-wrapper,
+.elementor-control-geometry_light_posz.elementor-label-inline > .elementor-control-content > .elementor-control-field > .elementor-control-input-wrapper,
+.elementor-control-geometry_light_targetx.elementor-label-inline > .elementor-control-content > .elementor-control-field > .elementor-control-input-wrapper,
+.elementor-control-geometry_light_targety.elementor-label-inline > .elementor-control-content > .elementor-control-field > .elementor-control-input-wrapper,
+.elementor-control-geometry_light_targetz.elementor-label-inline > .elementor-control-content > .elementor-control-field > .elementor-control-input-wrapper
+{
+    margin-left: auto;
+    width: 97%;
+}
+
+#elementor-panel-category-3d .elementor-element-wrapper:first-child {
+    grid-column: 1/-1;
+}

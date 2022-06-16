@@ -1,0 +1,222 @@
+/* .elementor-widget-e-3d-object{
+	position: static;
+} */
+canvas.threed-canvas{
+    width: 100%;
+    height: 100%;
+}
+.threed-data{
+	display: none;
+}
+.elementor-element.elementor-widget-e-3d-mesh .e-threed-container.e-add-viewport-extend,
+.elementor-element.elementor-widget-e-3d-scene .e-threed-container.e-add-viewport-extend{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+
+#overlay {
+	position: absolute;
+	font-size: 16px;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	background: rgba(0,0,0,0.7);
+}
+
+	#overlay button {
+		background: transparent;
+		border: 0;
+		border: 1px solid rgb(255, 255, 255);
+		border-radius: 4px;
+		color: #ffffff;
+		padding: 12px 18px;
+		text-transform: uppercase;
+		cursor: pointer;
+	}
+
+#notSupported {
+	width: 50%;
+	margin: auto;
+	background-color: #f00;
+	margin-top: 20px;
+	padding: 10px;
+}
+
+/* editor */
+.elementor-widget-e-3d-object .e-threed-widget,
+.elementor-widget-e-3d-points .e-threed-widget,
+.elementor-widget-e-3d-light .e-threed-widget,
+.elementor-widget-e-3d-particles .e-threed-widget,
+.elementor-widget-e-3d-plane .e-threed-widget,
+.elementor-widget-e-3d-postprocessing .e-threed-widget,
+.elementor-widget-e-3d-depthfocus .e-threed-widget{
+	background-color: #e6e9ec;
+	border: 1px solid #cfd2d6;
+	border-radius: 2px;
+	color: #6d7882;
+	padding: 10px;
+	margin: 1px 0;
+}
+/*
+.elementor-widget-e-3d-points .e-threed-widget{
+	background-color: #9f0000;
+}
+.elementor-widget-e-3d-light .e-threed-widget{
+	background-color: #e4b21b;
+}
+.elementor-widget-e-3d-postprogessing .e-threed-widget{
+	background-color: #659f09;
+}
+.elementor-widget-e-3d-light .e-threed-particles{
+	background-color: #891be4;
+}
+.elementor-widget-e-3d-plane .e-threed-widget{
+	background-color: #121fdc;
+}
+*/
+.elementor-widget-e-3d-object .e-threed-widget b,
+.elementor-widget-e-3d-points .e-threed-widget b,
+.elementor-widget-e-3d-light .e-threed-widget b,
+.elementor-widget-e-3d-particles .e-threed-widget b,
+.elementor-widget-e-3d-plane .e-threed-widget b,
+.elementor-widget-e-3d-postprocessing .e-threed-widget b,
+.elementor-widget-e-3d-depthfocus .e-threed-widget b{
+	opacity: 0.4;
+}
+.elementor-element.elementor-widget-e-3d-object.elementor-element-editable .e-threed-widget,
+.elementor-element.elementor-widget-e-3d-points.elementor-element-editable .e-threed-widget,
+.elementor-element.elementor-widget-e-3d-light.elementor-element-editable .e-threed-widget,
+.elementor-element.elementor-widget-e-3d-particles.elementor-element-editable .e-threed-widget,
+.elementor-element.elementor-widget-e-3d-plane.elementor-element-editable .e-threed-widget,
+.elementor-element.elementor-widget-e-3d-postprocessing.elementor-element-editable .e-threed-widget,
+.elementor-element.elementor-widget-e-3d-depthfocus.elementor-element-editable .e-threed-widget{
+	background-color: #0098c7;
+	color: #ffffff;
+}
+.e-threed-widget-type .e-threed-widget-label{
+	font-weight: 700;
+}
+.elementor-element.elementor-widget-e-3d-points .e-threed-widget .e-threed-widget-type svg{
+	width: 26px;
+	height: 20px;
+	margin-bottom: -5px;
+}
+.elementor-element.elementor-widget-e-3d-points .e-threed-widget .e-threed-widget-type svg path{
+	fill: #6d7882;
+}
+.elementor-element.elementor-widget-e-3d-points.elementor-element-editable .e-threed-widget .e-threed-widget-type svg path{
+	fill: #FFFFFF;
+}
+body.elementor-editor-preview .elementor-widget-e-3d-object,
+body.elementor-editor-preview .elementor-widget-e-3d-light,
+body.elementor-editor-preview .elementor-widget-e-3d-points,
+body.elementor-editor-preview .elementor-widget-e-3d-plane,
+body.elementor-editor-preview .elementor-widget-e-3d-postprocessing,
+body.elementor-editor-preview .elementor-widget-e-3d-particles,
+body.elementor-editor-preview .elementor-widget-e-3d-depthfocus{
+    display: none;
+}
+.e-threed-widget .e-threed-widget-info{
+	font-size: 12px;
+}
+
+/* cursor */
+.e-threed-container .e-3d-cursor{
+	border: 3px solid #0098c7;
+	border-radius: 200px;
+	width: 80px;
+	height: 80px;
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	transform: translate3d(-50%, -50%, 0);
+
+	-moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    pointer-events: none;
+}
+/* tooltip */
+.e-3d-tooltip{
+	width: 0px;
+	height: 0px;
+	backface-visibility: hidden;
+	position: fixed;
+	top: 0;
+	left: 0;
+	
+	z-index: 1000;
+	transform: translate3d(0, 0, 0);
+
+	-moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    pointer-events: none;
+}
+.e-3d-tooltip span{
+	background-color: #000;
+	color: #fff;
+	border-radius: 3px;
+	max-width: 200px;
+	height: auto;
+	padding: 15px;
+
+	position: absolute;
+	top: -10px;
+	left: 0;
+	transform: translate3d(-50%, -100%, 0);
+}
+/* loading */
+.e-threed-loading {
+	display: none;
+	
+	padding: 10px;
+	
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 1000;
+	
+	transform: translate3d(-50%, -50%, 0);
+	
+	backface-visibility: hidden;
+	
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+
+	
+}
+.e-threed-loading .e-threed-loading-bar{
+	position: relative;
+	background-color: #999;
+	border-radius: 200px;
+	
+	width: 200px;
+	height: 10px;
+	overflow: hidden;
+}
+.e-threed-loading .e-threed-loading-progress{
+	background-color: #000;
+	width: 0;
+	height: 10px;
+	transition: width 0.5s ease;
+}
