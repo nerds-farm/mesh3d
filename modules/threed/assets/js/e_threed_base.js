@@ -262,7 +262,6 @@ class e_threed_base {
             //this.canvasW = this.elementSettings.viewport_width.size;
             //this.canvasH = this.elementSettings.viewport_height.size; 
         }
-        console.log(this.canvasW + ' ' + this.canvasH);
 
         this.windowHalfX = this.canvasW / 2;
         this.windowHalfY = this.canvasH / 2;
@@ -301,6 +300,8 @@ class e_threed_base {
         
         //CAMERA
         this.cameraFov = this.elementSettings.camera_fov && Boolean(this.elementSettings.camera_fov.size)  ? this.elementSettings.camera_fov.size : 40;
+        this.cameraZoom = this.elementSettings.camera_zoom && Boolean(this.elementSettings.camera_zoom.size)  ? this.elementSettings.camera_zoom.size : 1;
+
         this.cameraLookat = Boolean(this.elementSettings.camera_lookat) || false;
 
         // pos X
@@ -1834,6 +1835,7 @@ class e_threed_base {
         let ratio = this.canvasW / this.canvasH;
         this.camera = new THREE.PerspectiveCamera(this.cameraFov, ratio, 1, 10000);
         // da perfezionere NEAR-FAR .....
+        this.camera.zoom = this.cameraZoom;
         this.camera.position.set( this.cameraPosX, this.cameraPosY, this.cameraPosZ );
 
         // if(this.cameraLookat && this.primitive_mesh)
@@ -1866,7 +1868,7 @@ class e_threed_base {
     }
     updateParamsCamera(){
         this.camera.fov = this.cameraFov;
-        
+        this.camera.zoom = this.cameraZoom;
         if(this.cameraLookat){
             this.camera.lookAt( this.scene.position );
         }else{
@@ -2037,7 +2039,7 @@ class e_threed_base {
             marker = {x: 0, y: 0, z: 0};
             campos = {x: this.cameraPosX, y: this.cameraPosY, z: this.cameraPosZ}; 
             camfov = this.cameraFov; 
-            camzoom = 1;
+            camzoom = this.cameraZoom;
 
             if(!this.cameraLookat){
                 marker = {x: this.cameraTargetX, y: this.cameraTargetY, z: this.cameraTargetZ};
@@ -3462,6 +3464,13 @@ class e_threed_base {
         if ('camera_fov' === propertyName) {
             this.cameraFov = this.elementSettings.camera_fov && Boolean(this.elementSettings.camera_fov.size) ? this.elementSettings.camera_fov.size : 40;
             this.camera.fov = this.cameraFov;
+
+            this.camera.updateProjectionMatrix();
+            this.render();
+        }
+        if ('camera_zoom' === propertyName) {
+            this.cameraZoom = this.elementSettings.camera_zoom && Boolean(this.elementSettings.camera_zoom.size) ? this.elementSettings.camera_zoom.size : 1;
+            this.camera.zoom = this.cameraZoom;
 
             this.camera.updateProjectionMatrix();
             this.render();
