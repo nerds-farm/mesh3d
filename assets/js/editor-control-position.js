@@ -7,7 +7,7 @@ jQuery(window).on('load', function () {
             var ui = ControlMultipleBaseItemView.prototype.ui.apply(this, arguments);
             ui.controls = '.elementor-slider-input > input:enabled';
             ui.sliders = '.elementor-slider';
-            ui.link = 'button.e-add-reset-controls';
+            ui.link = 'button.e3d-reset-controls';
             //ui.colors = '.elementor-shadow-color-picker';
 
             return ui;

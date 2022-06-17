@@ -26,16 +26,15 @@ class Mesh extends Base_Widget {
     use Traits\Animations;
     use Traits\Camera;
     use Traits\Interactivity;
+    use Traits\Lightambient;
     use Traits\Lightshadow;
     use Traits\Material;
-    use Traits\Modifiers;
     use Traits\Options;
     use Traits\Primitive;
     use Traits\Renderer;
     use Traits\Sky;
     use Traits\Transform;
     use Traits\Viewport;
-    use Traits\Hotpoints;
     
     public function get_name() {
         return 'e-3d-mesh';
@@ -50,7 +49,7 @@ class Mesh extends Base_Widget {
     }
 
     // public function get_docs() {
-    //     return 'https://e-addons.com';
+    //     return 'https://3deven.com';
     // }
 
     public function get_icon() {
@@ -160,7 +159,7 @@ class Mesh extends Base_Widget {
                 ],
             ]
         );
-        
+        $this->add_lightambient_controls($this);
         $this->add_lightshadow_controls($this);
 
         $this->end_controls_section();
@@ -258,30 +257,7 @@ class Mesh extends Base_Widget {
 
         $this->end_controls_section();
 
-        // --------------------------------------- MODIFIERS
-        $this->start_controls_section(
-            'section_modifiers', [
-                'label' => esc_html__('Modifiers (TODO)', 'mesh3d'),
-                'condition' => [
-                    'geometry_type!' => ['svg','import'],
-                    'material_type!' => 'wireframeMaterial'
-                ],
-            ]
-        );
-
-        $this->add_modifiers_controls($this);
-
-        $this->end_controls_section();
-
-        // --------------------------------------- HOTPOINTS
-        $this->start_controls_section(
-            'section_hotpoints', [
-                'label' => esc_html__('hotpoints (TODO)', 'mesh3d'),
-            ]
-        );
-        $this->add_hotpoints_controls($this);
-
-        $this->end_controls_section();
+        
     }
 
     protected function render() {
@@ -292,7 +268,7 @@ class Mesh extends Base_Widget {
             //
             $threejsPath = $this->get_module_url().'assets/lib/threejs/';
             //$threejsPath = 'e-addons/wp-content/plugins/e-addons-threed/modules/threed/assets/lib/threejs/';
-            $classExtend = $settings['viewport_extend'] ? ' e-add-viewport-extend' : '';
+            $classExtend = $settings['viewport_extend'] ? ' e3d-viewport-extend' : '';
         ?>
         <script>
             var threejsPath = '<?php echo $this->get_module_url(); ?>';
@@ -315,7 +291,7 @@ class Mesh extends Base_Widget {
    protected function content_template() {
         ?>
         <#
-        var classExtend = settings.viewport_extend ? ' e-add-viewport-extend' : '',
+        var classExtend = settings.viewport_extend ? ' e3d-viewport-extend' : '',
         geometrySvg = elementor.helpers.renderIcon( view, settings.geometry_svg, { 'aria-hidden': true }, 'i' , 'object' );
         #>
 

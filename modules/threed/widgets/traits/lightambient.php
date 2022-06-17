@@ -14,6 +14,13 @@ trait Lightambient {
     // ++++++++++++++++++++++ Close ++++++++++++++++++++++
     public function add_lightambient_controls($target, $suffix = '') {
         
+        $target->add_control(
+            'lightambient_heading', [
+                'label' => esc_html__('Ambient Light', 'mesh3d'),
+                'type' => Controls_Manager::HEADING,
+                'separator' => 'before'
+            ]
+        );
        // ------- ambient light ------
         $target->add_control(
             'ambientlight_color',

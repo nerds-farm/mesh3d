@@ -109,7 +109,7 @@ class Position extends Control_Base_Multiple {
         ?>
         <div class="elementor-control-field elementor-control-field-position">
             <label class="elementor-control-title control-title-first control-title-first-position">{{{ data.label }}}</label>
-            <button href="#" class="e-add-reset-controls" title="Reset"><i class="fas fa-times"></i></button>
+            <button href="#" class="e3d-reset-controls" title="Reset"><i class="fas fa-times"></i></button>
         </div>
         <?php
         foreach ($this->get_sliders() as $slider_name => $slider) :

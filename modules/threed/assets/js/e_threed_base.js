@@ -488,10 +488,7 @@ class e_threed_base {
         if(this.interactivityType == 'orbit' || this.interactivityType == 'wheel')
         this.generateControls();
 
-        // ----> HOT POINTS ........
-        this.generateHotpoints();
-
-        
+       
         // -----------------------------------------
         
         // EVENTS 
@@ -792,7 +789,6 @@ class e_threed_base {
                 //@p applico alla mesh il materiale definito
                 this.primitive_mesh = this.applyMesh();
                 //console.log(this.primitive_mesh);
-                this.generateModifiers();
             
             this.positionMesh();
             this.updateShadowsMesh();
@@ -804,7 +800,6 @@ class e_threed_base {
         }  
     }
     positionMesh(){
-        alert('pos')
         //@p la posizioni se ho definito transform
         this.primitive_mesh.position.x = this.geometryMeshPosX;
         this.primitive_mesh.position.y = this.geometryMeshPosY;
@@ -829,55 +824,7 @@ class e_threed_base {
             //alert('shadow primitive')
         }
     }
-    generateModifiers(){
-        if(this.modifierType){
-            this.modifier = new ModifierStack(this.primitive_mesh);
-
-            switch(this.modifierType){
-                case 'bend':
-                /*
-                this.bend = new Bend(0.7, 0.2, 0);
-                
-                this.bend.force = 0;
-                this.bend.offset = 0.5;
-                this.bend.angle = 0;
-
-                this.bend.constraint = ModConstant.LEFT; // RIGHT
-
-                //this.modifier.addModifier(this.bend);
-                */
-                break;
-                case 'skew':
-                /*
-                this.skew = new Skew(0);
-                this.skew.force = 0;
-                */
-                //this.modifier.addModifier(this.skew);
-                break;
-                case 'twist':
-                    this.modifierTwistAngle = this.elementSettings.modifier_twist_angle ? this.elementSettings.modifier_twist_angle.size : 0.2;
-                    
-                    this.twist = new Twist(this.modifierTwistAngle);
-                    this.twist.angle = this.modifierTwistAngle; //Math.PI / 12;
-                    this.twist.vector = new Vector3(0, 1, 0);
-                    //this.twist.vector = new Vector3(1, 1, 0);
-                    this.modifier.addModifier(this.twist);
-                    
-                break;
-                case 'cloth':
-                /*
-                tthis.cloth = new Cloth(1, 0);
-                this.cloth.setForce(0.2, -0.2, -0.2);
-
-                this.bend.rigidity = 0;
-                this.bend.friction = 0.5;
-                this.modifier.addModifier(this.cloth);
-                */
-                break;
-
-            }
-        }
-    }
+    
     importSVG(){
         // ********************************* 
             // EXTRUSION SVG
@@ -4210,13 +4157,7 @@ class e_threed_base {
             
         }
         
-        //MODIFIERS
-        if ('modifier_type' === propertyName) {
-            this.modifierType = this.elementSettings.modifier_type || '';
-            
-            this.clean3Dmodifier();
-            this.generateModifiers();
-        }
+        
         if ('modifier_twist_angle' === propertyName) {
             this.modifierTwistAngle = this.elementSettings.modifier_twist_angle ? this.elementSettings.modifier_twist_angle.size : 0.2;
             

@@ -59,7 +59,7 @@ i.ruotato {
     margin-top: 10px;
 }
 /* controls (Transformations / Position) */
-.e-add-reset-controls {
+.e3d-reset-controls {
     position: absolute;
     right: 20px;
     background-color: #fff;

@@ -53,34 +53,6 @@ class Threed extends Module_Base {
         $this->register_script( '3de-gsap-lib', 'assets/lib/greensock/gsap.min.js', [], '3.10.4' );
         $this->register_script( '3de-gsap-scrollTrigger-lib', 'assets/lib/greensock/ScrollTrigger.min.js', ['3de-gsap-lib'], '3.10.4' );
         
-        //postprocessing
-        $this->register_script( 'threejs-EffectComposer', 'assets/lib/threejs/js/postprocessing/EffectComposer.js', ['threejs-lib'], '1.2.3' );
-
-        $this->register_script( 'threejs-RenderPass', 'assets/lib/threejs/js/postprocessing/RenderPass.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-BokehPass', 'assets/lib/threejs/js/postprocessing/BokehPass.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-ShaderPass', 'assets/lib/threejs/js/postprocessing/ShaderPass.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-DotScreenPass', 'assets/lib/threejs/js/postprocessing/DotScreenPass.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-HalftonePass', 'assets/lib/threejs/js/postprocessing/HalftonePass.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-BloomPass', 'assets/lib/threejs/js/postprocessing/BloomPass.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-UnrealBloomPass', 'assets/lib/threejs/js/postprocessing/UnrealBloomPass.js', ['threejs-lib'], '1.2.3' );
-        //GlitchPass ..
-
-        $this->register_script( 'threejs-BokehShader', 'assets/lib/threejs/js/shaders/BokehShader.js', ['threejs-lib','threejs-BokehPass'], '1.2.3' );
-        $this->register_script( 'threejs-BokehShader2', 'assets/lib/threejs/js/shaders/BokehShader2.js', ['threejs-lib','threejs-BokehPass'], '1.2.3' );
-        $this->register_script( 'threejs-CopyShader', 'assets/lib/threejs/js/shaders/CopyShader.js', ['threejs-lib','threejs-BokehPass'], '1.2.3' );
-        $this->register_script( 'threejs-RGBShiftShader', 'assets/lib/threejs/js/shaders/RGBShiftShader.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-DotScreenShader', 'assets/lib/threejs/js/shaders/DotScreenShader.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-HalftoneShader', 'assets/lib/threejs/js/shaders/HalftoneShader.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-PixelShader', 'assets/lib/threejs/js/shaders/PixelShader.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-ACESFilmicToneMappingShader', 'assets/lib/threejs/js/shaders/ACESFilmicToneMappingShader.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-LuminosityHighPassShader', 'assets/lib/threejs/js/shaders/LuminosityHighPassShader.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-SobelOperatorShader', 'assets/lib/threejs/js/shaders/SobelOperatorShader.js', ['threejs-lib'], '1.2.3' );
-        
-        // LuminosityShader ..
-
-        //$this->register_script( 'threejs-SAOPass', 'assets/lib/threejs/js/postprocessing/SAOPass.js', ['threejs-lib'], '1.2.3' );
-        //$this->register_script( 'threejs-SAOShader', 'assets/lib/threejs/js/shader/SAOShader.js', ['threejs-lib'], '1.2.3' );
-        //$this->register_script( 'threejs-SimplexNoise', 'assets/lib/threejs/js/math/SimplexNoise.js', ['threejs-lib'], '1.2.3' );
         
         
         //$this->register_style( 'xxx-lib', 'assets/lib/xxx/xxx.min.css' );

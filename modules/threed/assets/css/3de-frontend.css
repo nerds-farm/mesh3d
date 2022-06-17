@@ -8,8 +8,8 @@ canvas.threed-canvas{
 .threed-data{
 	display: none;
 }
-.elementor-element.elementor-widget-e-3d-mesh .e-threed-container.e-add-viewport-extend,
-.elementor-element.elementor-widget-e-3d-scene .e-threed-container.e-add-viewport-extend{
+.elementor-element.elementor-widget-e-3d-mesh .e-threed-container.e3d-viewport-extend,
+.elementor-element.elementor-widget-e-3d-scene .e-threed-container.e3d-viewport-extend{
 	position: fixed;
 	top: 0;
 	left: 0;
