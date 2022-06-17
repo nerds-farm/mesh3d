@@ -26,7 +26,6 @@ class Mesh extends Base_Widget {
     use Traits\Animations;
     use Traits\Camera;
     use Traits\Interactivity;
-    use Traits\Lightambient;
     use Traits\Lightshadow;
     use Traits\Material;
     use Traits\Modifiers;
@@ -162,7 +161,6 @@ class Mesh extends Base_Widget {
             ]
         );
         
-        $this->add_lightambient_controls($this);
         $this->add_lightshadow_controls($this);
 
         $this->end_controls_section();

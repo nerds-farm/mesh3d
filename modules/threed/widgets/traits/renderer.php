@@ -79,6 +79,7 @@ trait Renderer {
                 
             ]
         );
+        /*
         $target->add_control(
             'shadow_type', [
                 'label' => esc_html__('Shadow Type', 'mesh3d'),
@@ -94,5 +95,6 @@ trait Renderer {
                 
             ]
         );
+        */
     }
 }

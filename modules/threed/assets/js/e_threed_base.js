@@ -804,20 +804,21 @@ class e_threed_base {
         }  
     }
     positionMesh(){
+        alert('pos')
         //@p la posizioni se ho definito transform
         this.primitive_mesh.position.x = this.geometryMeshPosX;
         this.primitive_mesh.position.y = this.geometryMeshPosY;
         this.primitive_mesh.position.z = this.geometryMeshPosZ;
-        //const degrees = THREE.Math.degToRad ( degrees : Float ) : Float
-        this.primitive_mesh.rotation.x = THREE.Math.degToRad (this.geometryMeshRotX);
-        this.primitive_mesh.rotation.y = THREE.Math.degToRad (this.geometryMeshRotY);
-        this.primitive_mesh.rotation.z = THREE.Math.degToRad (this.geometryMeshRotZ);
+        //const degrees = THREE.MathUtils.degToRad ( degrees : Float ) : Float
+        this.primitive_mesh.rotation.x = THREE.MathUtils.degToRad (this.geometryMeshRotX);
+        this.primitive_mesh.rotation.y = THREE.MathUtils.degToRad (this.geometryMeshRotY);
+        this.primitive_mesh.rotation.z = THREE.MathUtils.degToRad (this.geometryMeshRotZ);
         
         this.primitive_mesh.scale.set(this.geometryMeshScale,this.geometryMeshScale,this.geometryMeshScale);
 
         // per capovolgere .... @p non capisco!
         // if(this.geometryType == 'svg'){
-        //     this.primitive_mesh.rotation.x = THREE.Math.degToRad (this.geometryMeshRotX+180);
+        //     this.primitive_mesh.rotation.x = THREE.MathUtils.degToRad (this.geometryMeshRotX+180);
         // }
     }
     updateShadowsMesh(){
@@ -3613,17 +3614,17 @@ class e_threed_base {
         }
         if ('geometry_mesh_rotx' === propertyName) {
             this.geometryMeshRotX = this.elementSettings.geometry_mesh_rotx ? this.elementSettings.geometry_mesh_rotx.size : 0;
-            this.primitive_mesh.rotation.x = THREE.Math.degToRad (this.geometryMeshRotX);
+            this.primitive_mesh.rotation.x = THREE.MathUtils.degToRad (this.geometryMeshRotX);
             this.render();
         }
         if ('geometry_mesh_roty' === propertyName) {
             this.geometryMeshRotY = this.elementSettings.geometry_mesh_roty ? this.elementSettings.geometry_mesh_roty.size : 0;
-            this.primitive_mesh.rotation.y = THREE.Math.degToRad (this.geometryMeshRotY);
+            this.primitive_mesh.rotation.y = THREE.MathUtils.degToRad (this.geometryMeshRotY);
             this.render();
         }
         if ('geometry_mesh_rotz' === propertyName) {
             this.geometryMeshRotZ = this.elementSettings.geometry_mesh_rotz ? this.elementSettings.geometry_mesh_rotz.size : 0;
-            this.primitive_mesh.rotation.z = THREE.Math.degToRad (this.geometryMeshRotZ);
+            this.primitive_mesh.rotation.z = THREE.MathUtils.degToRad (this.geometryMeshRotZ);
             this.render();
         }
         if ('geometry_mesh_scale' === propertyName) {
