@@ -299,10 +299,12 @@ class e_threed_base {
         this.orbitDampingSpeed = this.elementSettings.orbit_damping_speed ? this.elementSettings.orbit_damping_speed.size : 0.05;
         
         //CAMERA
+        this.cameraType = this.elementSettings.camera_type || 'perspective';
+
         this.cameraFov = this.elementSettings.camera_fov && Boolean(this.elementSettings.camera_fov.size)  ? this.elementSettings.camera_fov.size : 40;
         this.cameraZoom = this.elementSettings.camera_zoom && Boolean(this.elementSettings.camera_zoom.size)  ? this.elementSettings.camera_zoom.size : 1;
-
-        this.cameraLookat = Boolean(this.elementSettings.camera_lookat) || false;
+        this.cameraLookat = Boolean(this.elementSettings.camera_lookat);
+        this.frustumSize = 3;
 
         // pos X
         this.cameraPosX = this.elementSettings.camera_posx ? this.elementSettings.camera_posx.size : 0;
@@ -486,7 +488,7 @@ class e_threed_base {
 
         
         // ----> CONTROLS ........
-        if(this.interactivityType == 'orbit' || this.interactivityType == 'wheel')
+        if(this.interactivityType == 'orbit' || this.interactivityType == 'wheel' || this.interactivityType == 'map')
         this.generateControls();
 
        
@@ -539,14 +541,10 @@ class e_threed_base {
            
         } );
         
-       
-
-        
-        
-        
-        // --------------------------------------------------
         // RESIZE of viewport CANVAS
-        window.addEventListener( 'resize', this.windowResize );
+        window.addEventListener( 'resize', () => {
+            this.windowResize();
+        });
     }
 
 
@@ -594,9 +592,23 @@ class e_threed_base {
    
     windowResize(){
         this.updateData3d_viewport();
-            
-        this.camera.aspect = this.canvasW / this.canvasH;
+        
+        this.ratio = this.canvasW / this.canvasH;
+        
+        switch(this.cameraType){
+            case 'perspective':
+                this.camera.aspect = this.ratio;
+            break;
+            case 'orthographic':
+                this.camera.left = - this.frustumSize * this.ratio / 2;
+                this.camera.right = this.frustumSize * this.ratio / 2;
+                this.camera.top = this.frustumSize / 2;
+                this.camera.bottom = - this.frustumSize / 2;
+            break;
+        }
         this.camera.updateProjectionMatrix();
+        
+        
         this.renderer.setSize( this.canvasW, this.canvasH );
     }
 
@@ -1412,7 +1424,7 @@ class e_threed_base {
 
 
 
-    // CONTROLS +++++++++++++++++++++++++
+    // CONTROLS 
     generateControls(){
         
         //if(elementorFrontend.isEditMode()){
@@ -1422,10 +1434,30 @@ class e_threed_base {
                 e.stopPropagation();
                 return false;
             };
-            // orbit control
-            this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
-           
+            this.container.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                return false;
+            }, false);
             
+            // orbit control
+            if(this.interactivityType == 'map'){
+                this.controls = new THREE.MapControls( this.camera, this.renderer.domElement );
+            }else{
+                this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+            }
+            
+            //@p lo processo nel render
+            // this.controls.addEventListener( 'change', () => {
+            //     this.calcSpriteSize();
+            // } );
+
+            // @p lo processo nel render
+            this.controls.addEventListener( 'change', () => {
+                //console.log(this.controls.target.z);
+            } );
+
             switch(this.ambientType){
                 case 'wall':
                     this.controls.maxPolarAngle = 1.2 * Math.PI / 2;
@@ -1451,9 +1483,12 @@ class e_threed_base {
                 break;
             }
             this.controls.enableZoom = false;
-            this.controls.panSpeed = 0.1;
+            this.controls.panSpeed = 1;
             this.controls.rotateSpeed = 0.3;
+            this.controls.minDistance = 1;
+            this.controls.maxDistance = 10;
 
+            this.controls.screenSpacePanning = this.orbitPanning;
 
             this.controls.autoRotate = this.orbitAutorotate;
             this.controls.autoRotateSpeed = this.autorotateSpeed;
@@ -1462,32 +1497,31 @@ class e_threed_base {
             this.controls.dampingFactor = this.orbitDampingSpeed;
             //this.controls.screenSpacePanning = false;
 
-           
-            this.updateParamsControls();
+            // BESTEMMIE
+            //this.updateParamsControls();
+            this.updateCamTarget();
+            
 
-            // this.controls.screenSpacePanning = true;
-            // this.controls.minDistance = 5;
-            // this.controls.maxDistance = 40;
-            // this.controls.target.set( 0, 2, 0 );
+            //this.controls.maxPolarAngle = Math.PI / 2;
+
+            
+            
             this.controls.update();
         //}
         
-        // @p aggancio la camera al centro
-        //this.camera.lookAt( this.scene.position );
     }
     updateParamsControls(){
-        //(added.)
         
-        // if(!this.cameraLookat){
-        //     alert('ca')
-        //     this.controls.target.set(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-        //  }else{
-        //     alert('cb')
-        //     this.controls.target.set(0,0,0); 
-        //  }
-        
-        this.controls.target.set(this.scene.position.x,this.scene.position.y,this.scene.position.z);
+        if(!this.cameraLookat){
+            // CUSTOM TARGET
+            this.controls.target = this.cameraTarget.position;
+        }else{
+            // CENTER OF SCENE
+            this.controls.target = this.scene.position;
+        }
     }
+
+
     generateLight(){
         // -------------------------
         // LIGHT: directional e spot
@@ -1865,6 +1899,23 @@ class e_threed_base {
         this.camera.add( pointLight );
         this.scene.add( this.camera );
 
+    }
+    updateCamera(){
+        // -------------------------
+        // CAMERA
+        // fov, aspect, near, far
+        // X - Y - Z
+        // console.log(this.camera);
+        this.ratio = this.canvasW / this.canvasH;
+        switch(this.cameraType){
+            case 'perspective':
+                this.camera = new THREE.PerspectiveCamera(this.cameraFov, this.ratio, 0.1, 1000);
+            break;
+            case 'orthographic':
+                this.camera = new THREE.OrthographicCamera( this.frustumSize * this.ratio / - 2, this.frustumSize * this.ratio / 2, this.frustumSize / 2, this.frustumSize / - 2, 1, 1000 );
+            break;
+        }
+        this.updateParamsCamera();
     }
     updateParamsCamera(){
         this.camera.fov = this.cameraFov;
@@ -3078,6 +3129,33 @@ class e_threed_base {
               
         
     }
+    updateCamTarget(){
+
+        if(this.cameraLookat){
+            // if(this.interactivityType == 'orbit' || this.interactivityType == 'map' || this.interactivityType == 'wheel'){
+               
+            // }
+            if(this.controls){
+               this.controls.target.set(this.scene.position.x, this.scene.position.y, this.scene.position.z); 
+            }
+                this.camera.target = this.scene.position;
+                this.camera.lookAt( this.scene.position );
+            
+            
+        }else{
+             // cammm
+             if(this.controls){
+                this.controls.target.set(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
+             }
+                this.camera.target = this.cameraTarget;
+                this.camera.lookAt(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
+             
+            
+            
+        }
+        if(this.controls)
+        this.controls.update();
+    }
     updateHelpers($helper = 'all', $remove = false){
         
         switch($helper){
@@ -3135,6 +3213,9 @@ class e_threed_base {
 
     
     //CLEAN 3D
+    clean3DCamera(){
+        this.camera = null;
+    }
     clean3Dhotpooints(){
         this.hotpointsList.forEach((e, i) => { 
             e.elem.material.dispose();
@@ -3335,7 +3416,11 @@ class e_threed_base {
         this.clean3DMesh();
         this.meshConstructor();
     }
-    
+    updateControls(){
+        this.clean3DControls();
+        this.generateControls();
+        this.controls.update();
+    }
     render() {
         if(this.renderer) this.renderer.render( this.scene, this.camera );
     }
@@ -3462,6 +3547,17 @@ class e_threed_base {
         
         
         // CAMERA --------------------------------------
+        if ('camera_type' === propertyName) {
+            this.cameraType = this.elementSettings.camera_type || 'perspective';
+
+            this.clean3DCamera();
+            this.updateCamera();
+            this.camera.updateProjectionMatrix();
+            
+            if(this.interactivityType) this.updateControls();
+
+            this.render();
+        }
         if ('camera_fov' === propertyName) {
             this.cameraFov = this.elementSettings.camera_fov && Boolean(this.elementSettings.camera_fov.size) ? this.elementSettings.camera_fov.size : 40;
             this.camera.fov = this.cameraFov;
@@ -3476,21 +3572,28 @@ class e_threed_base {
             this.camera.updateProjectionMatrix();
             this.render();
         }
+        
+        
+
+
+        // Aggancio la rotazione della scena sempre al centro della scena.
         if ('camera_lookat' === propertyName) {
             this.cameraLookat = Boolean(this.elementSettings.camera_lookat) || false;
 
-            if(this.cameraLookat){
-               this.camera.lookAt( this.scene.position );
-            }else{
-                this.camera.lookAt(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-            }
+            this.updateCamTarget();
             
             this.camera.updateProjectionMatrix();
             this.render();
         }
+
+
+
+        // POSITIONS x-y-z
         if ('camera_posx' === propertyName) {
             this.cameraPosX = this.elementSettings.camera_posx ? this.elementSettings.camera_posx.size : 0;
             this.camera.position.x = this.cameraPosX;
+            
+            this.updateCamTarget();
 
             this.camera.updateProjectionMatrix();
             this.render();
@@ -3499,6 +3602,8 @@ class e_threed_base {
             this.cameraPosY = this.elementSettings.camera_posy ? this.elementSettings.camera_posy.size : 0;
             this.camera.position.y = this.cameraPosY;
 
+            this.updateCamTarget();
+
             this.camera.updateProjectionMatrix();
             this.render();
         }
@@ -3506,51 +3611,45 @@ class e_threed_base {
             this.cameraPosZ = this.elementSettings.camera_posz ? this.elementSettings.camera_posz.size : 4;
             this.camera.position.z = this.cameraPosZ;
 
+            this.updateCamTarget();
+
             this.camera.updateProjectionMatrix();
             this.render();
         }
+
+
+
+
+        // TARGET x-y-z
         if ('camera_targetx' === propertyName) {
             this.cameraTargetX = this.elementSettings.camera_targetx ? this.elementSettings.camera_targetx.size : 0;
             
             this.camera.lookAt(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-
-            if(this.interactivityType == 'orbit' || this.interactivityType == 'wheel'){
-                this.controls.target.set(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-                this.controls.update();
-            }
+            
+            this.updateCamTarget();
 
             this.camera.updateProjectionMatrix();
             this.render();
         }
         if ('camera_targety' === propertyName) {
             this.cameraTargetY = this.elementSettings.camera_targety ? this.elementSettings.camera_targety.size : 0;
-            //alert(this.cameraTargetX+' '+this.cameraTargetY+' '+this.cameraTargetZ);
-
-            //this.updateData3d();
             
-            this.camera.lookAt(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-
-            if(this.interactivityType == 'orbit' || this.interactivityType == 'wheel'){
-                this.controls.target.set(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-                this.controls.update();
-            }
+            this.updateCamTarget();
 
             this.camera.updateProjectionMatrix();
             this.render();
         }
         if ('camera_targetz' === propertyName) {
             this.cameraTargetZ = this.elementSettings.camera_targetz ? this.elementSettings.camera_targetz.size : 4;
-            this.camera.lookAt(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-
-            if(this.interactivityType == 'orbit' || this.interactivityType == 'wheel'){
-                this.controls.target.set(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-                this.controls.update();
-            }
+            
+            this.updateCamTarget();
 
             this.camera.updateProjectionMatrix();
             this.render();
             
         }
+
+
 
 
         // TRANSFORM --------------------------------------
@@ -4180,55 +4279,38 @@ class e_threed_base {
             this.interactivityType = this.elementSettings.interactivity_type || '';
             switch(this.interactivityType){
                 case 'tilt':
-                    
-                break;
                 case 'orbit':
-                    this.clean3DControls();
-
-                    this.generateControls();
-
-                    //this.render();
-                    this.controls.update();
+                case 'map':
+                    this.updateControls();
                 break;
                 case 'wheel':
                     this.wheelnum = 0;
 
-                    this.clean3DControls();
-
-                    this.generateControls();
-
-                    //this.render();
-                    this.controls.update();
+                    this.updateControls();
                 break;
+                default:
+                    this.clean3DControls();
+                    this.resetCamera($id);
 
             }
             this.updateParamsCamera();
         }
-        // if ('enable_tilt' === propertyName) {
-        //     this.enableTilt = Boolean(this.elementSettings.enable_tilt) || false;
-        //     if(!this.enableTilt){
-        //         this.updateParamsCamera();
-        //     }
-        // }
-        // if ('enable_orbit' === propertyName) {
-        //     this.enableOrbit = Boolean(this.elementSettings.enable_orbit) || false;
-            
-        //     this.clean3DControls();
+        if ('interactivity_dbclick' === propertyName) {
+            this.interactivityDbClick = this.elementSettings.interactivity_dbclick || '';
 
-        //     if(this.enableOrbit)
-        //     this.generateControls();
+        }
+        if ('tilt_amount' === propertyName) {
+            this.tiltAmount = this.elementSettings.tilt_amount ? this.elementSettings.tilt_amount.size : 1;
+        }
+        if ('tilt_speed' === propertyName) {
+            this.tiltSpeed = this.elementSettings.tilt_speed ? this.elementSettings.tilt_speed.size : 5;
+        }
+        if ('orbit_panning' === propertyName) {
+            this.orbitPanning = Boolean(this.elementSettings.orbit_panning) || false;
+            this.controls.screenSpacePanning = this.orbitPanning;
 
-        //     //this.render();
-        //     this.controls.update();
-        // }
-        
-        //this.controls.screenSpacePanning = false;
-
-        // this.controls.screenSpacePanning = true;
-        // this.controls.minDistance = 5;
-        // this.controls.maxDistance = 40;
-        // this.controls.target.set( 0, 2, 0 );
-
+            this.controls.update();
+        }
         if ('orbit_autorotate' === propertyName) {
             this.orbitAutorotate = Boolean(this.elementSettings.orbit_autorotate) || false;
             this.controls.autoRotate = this.orbitAutorotate;
@@ -4253,7 +4335,6 @@ class e_threed_base {
 
             this.controls.update();
         }
-
 
         // RENDERER ------------------------------
 
