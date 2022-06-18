@@ -2530,7 +2530,8 @@ class e_threed_base {
             
             case 'plane':
                 // *********************+************
-                // PLANE                    
+                // PLANE 
+                //alert('w: '+this.geometryWidth+' h: '+this.geometryWidth+'s: '+this.geometryWidthSegments+' '+this.geometryHeightSegments)                 
                 geometry = new THREE.PlaneGeometry(
                     this.geometryWidth, this.geometryHeight,
                     this.geometryWidthSegments, this.geometryHeightSegments

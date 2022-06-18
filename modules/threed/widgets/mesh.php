@@ -41,11 +41,11 @@ class Mesh extends Base_Widget {
     }
 
     public function get_title() {
-        return __('3D Mesh', 'mesh3d');
+        return __('Mesh 3D', 'mesh3d');
     }
 
     public function get_description() {
-        return __('The widget 3D Mesh, by threejs', 'mesh3d');
+        return __('The widget Mesh 3D for Elementor, by NERDS.FARM', 'mesh3d');
     }
 
     // public function get_docs() {
@@ -93,7 +93,7 @@ class Mesh extends Base_Widget {
         // --------------------------------------- PRIMITIVE OBJECTS
         $this->start_controls_section(
             'section_geometry_content', [
-                'label' => __('3D Mesh', 'mesh3d')
+                'label' => __('Object', 'mesh3d')
             ]
         );
         

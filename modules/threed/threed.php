@@ -30,7 +30,6 @@ class Threed extends Module_Base {
         $this->register_script( 'threejs-orbitcontrol', 'assets/lib/threejs/js/controls/OrbitControls.js', ['threejs-lib'], '1.2.3' );
         //mmmmmm
         $this->register_script( 'threejs-ProgressiveLightMap', 'assets/lib/threejs/js/misc/ProgressiveLightMap.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-modifiers', 'assets/lib/threejs/modifiers.min.js', ['threejs-lib'], '1.2.3' );
         //imports
         $this->register_script( 'threejs-SVGLoader', 'assets/lib/threejs/js/loaders/SVGLoader.js', ['threejs-lib'], '1.2.3' );
         $this->register_script( 'threejs-OBJLoader', 'assets/lib/threejs/js/loaders/OBJLoader.js', ['threejs-lib'], '1.2.3' );
@@ -39,14 +38,12 @@ class Threed extends Module_Base {
         $this->register_script( 'threejs-FBXLoader', 'assets/lib/threejs/js/loaders/FBXLoader.js', ['threejs-lib'], '1.2.3' );
         $this->register_script( 'threejs-GLTFLoader', 'assets/lib/threejs/js/loaders/GLTFLoader.js', ['threejs-lib'], '1.2.3' );
         $this->register_script( 'threejs-RGBELoader', 'assets/lib/threejs/js/loaders/RGBELoader.js', ['threejs-lib'], '1.2.3' );
-        $this->register_script( 'threejs-FBXLoader', 'assets/lib/threejs/js/loaders/FBXLoader.js', ['threejs-lib'], '1.2.3' );
         $this->register_script( 'threejs-fflate', 'assets/lib/threejs/js/libs/fflate.min.js', ['threejs-lib'], '1.2.3' );
         //helpers
         $this->register_script( 'threejs-VertexNormalsHelper', 'assets/lib/threejs/js/helpers/VertexNormalsHelper.js', ['threejs-lib'], '1.2.3' );
         //utils
         $this->register_script( 'threejs-BufferGeometryUtils', 'assets/lib/threejs/js/utils/BufferGeometryUtils.js', ['threejs-lib'], '1.2.3' );
-        //tween (da rimuovere, o valutare)
-        $this->register_script( 'threejs-tween', 'assets/lib/Tween.js', ['threejs-lib'], '3.1.13' );
+        
         //mousewheel
         $this->register_script( '3de-jquery-mousewheel', 'assets/lib/jquery.mousewheel.min.js', ['jquery'], '3.1.13' );
         //gsap
