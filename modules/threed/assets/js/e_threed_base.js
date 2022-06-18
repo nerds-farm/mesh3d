@@ -152,8 +152,8 @@ class e_threed_base {
         //IMPORT - ColladaDAE
         this.mixer;
         this.clock;
-        this.oggetti[$id].settings.importAnimationMixer = Boolean($settings.import_animationMixer);
-        this.oggetti[$id].settings.indexAnimationMixer = $settings.index_animationMixer || 0;
+        this.importAnimationMixer = Boolean(this.elementSettings.import_animationMixer);
+        this.indexAnimationMixer = this.elementSettings.index_animationMixer || 0;
 
 
         // TRANSFORM PRIMITIVA
@@ -2843,10 +2843,10 @@ class e_threed_base {
         .load( _this.import_file_name+'.'+_this.import_format_type, function ( object ) {
 
             // -----ANIM-----
-            if(_this.oggetti[$id].settings.importAnimationMixer){
+            if(_this.importAnimationMixer){
                 // model.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
-                 _this.oggetti[$id].settings.mixer = new THREE.AnimationMixer( gltf.scene );
-                 const action = _this.oggetti[$id].settings.mixer.clipAction( gltf.animations[ _this.oggetti[$id].settings.indexAnimationMixer ] );
+                 _this.mixer = new THREE.AnimationMixer( gltf.scene );
+                 const action = _this.mixer.clipAction( gltf.animations[ _this.indexAnimationMixer ] );
                  action.play();
              }
             
@@ -2909,10 +2909,10 @@ class e_threed_base {
                 
 
                 // -----ANIM-----
-                if(_this.oggetti[$id].settings.importAnimationMixer){
+                if(_this.importAnimationMixer){
                     // model.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
-                     _this.oggetti[$id].settings.mixer = new THREE.AnimationMixer( gltf.scene );
-                     const action = _this.oggetti[$id].settings.mixer.clipAction( gltf.animations[ _this.oggetti[$id].settings.indexAnimationMixer ] );
+                     _this.mixer = new THREE.AnimationMixer( gltf.scene );
+                     const action = _this.mixer.clipAction( gltf.animations[ _this.indexAnimationMixer ] );
                      action.play();
                  }
                 
