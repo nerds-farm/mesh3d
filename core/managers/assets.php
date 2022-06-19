@@ -64,9 +64,7 @@ final class Assets {
     public function enqueue_editor_styles() {
         // Register styles
         wp_enqueue_style('mesh3d-icons');
-        //if (!empty($_GET['post']) && !empty($_GET['action']) && $_GET['action'] == 'elementor') {
-        wp_enqueue_style('proto-editor');
-        //}
+       
         wp_enqueue_style(
                 'font-awesome-5-all',
                 ELEMENTOR_ASSETS_URL . 'lib/font-awesome/css/all.min.css',

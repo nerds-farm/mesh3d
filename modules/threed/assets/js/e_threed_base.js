@@ -95,8 +95,12 @@ class e_threed_base {
 
         this.helpernormal;
 
-        // HOTPOINTS
+        // HOTPOINTS (Disabled)
         this.hotpointsList = []; //questo array raccoglie le sprite object
+
+
+        //window ratio
+        this.ratio = 0; //let ratio = this.canvasW / this.canvasH;
     }
     /************************* DATA ************************ */
     updateData3d_oggetto(){
@@ -250,7 +254,7 @@ class e_threed_base {
     }
     updateData3d_viewport(){
         this.viewportExtend = this.elementSettings.viewport_extend || '';
-
+        
         if(this.viewportExtend && !elementorFrontend.isEditMode()){
             this.canvasW = window.innerWidth; 
             this.canvasH = window.innerHeight;
@@ -263,6 +267,7 @@ class e_threed_base {
             //this.canvasW = this.elementSettings.viewport_width.size;
             //this.canvasH = this.elementSettings.viewport_height.size; 
         }
+        //console.log(this.canvasW + ' ' + this.canvasH);
 
         this.windowHalfX = this.canvasW / 2;
         this.windowHalfY = this.canvasH / 2;
@@ -539,6 +544,7 @@ class e_threed_base {
         // RESIZE of viewport CANVAS
         window.addEventListener( 'resize', () => {
             this.windowResize();
+            console.log('r');
         });
     }
 
@@ -560,6 +566,8 @@ class e_threed_base {
                 this.camera.aspect = this.ratio;
             break;
             case 'orthographic':
+                this.camera.aspect = this.ratio;
+                
                 this.camera.left = - this.frustumSize * this.ratio / 2;
                 this.camera.right = this.frustumSize * this.ratio / 2;
                 this.camera.top = this.frustumSize / 2;
@@ -570,6 +578,8 @@ class e_threed_base {
         
         
         this.renderer.setSize( this.canvasW, this.canvasH );
+
+        
     }
 
 
@@ -1879,7 +1889,7 @@ class e_threed_base {
                 this.camera = new THREE.PerspectiveCamera(this.cameraFov, this.ratio, 0.1, 1000);
             break;
             case 'orthographic':
-                this.camera = new THREE.OrthographicCamera( this.frustumSize * this.ratio / - 2, this.frustumSize * this.ratio / 2, this.frustumSize / 2, this.frustumSize / - 2, 1, 1000 );
+                this.camera = new THREE.OrthographicCamera( this.frustumSize * this.ratio / - 2, this.frustumSize * this.ratio / 2, this.frustumSize / 2, this.frustumSize / - 2, 0.1, 1000 );
             break;
         }
         this.updateParamsCamera();
@@ -3433,6 +3443,15 @@ class e_threed_base {
         }
         if ('viewport_height' === propertyName) {
             this.windowResize();
+        }
+        if ('viewport_extend' === propertyName) {
+            // if(this.elementSettings.viewport_extend){
+            //     jQuery('.elementor-element-'+$id+' .e-threed-container').addClass('e3d-viewport-extend');
+            //     this.windowResize();
+            // }else{
+            //     jQuery('.elementor-element-'+$id+' .e-threed-container').removeClass('e3d-viewport-extend');
+            //     this.windowResize();
+            // }
         }
 
         
