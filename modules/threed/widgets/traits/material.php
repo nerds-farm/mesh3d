@@ -24,9 +24,6 @@ trait Material {
                     'basicMaterial' => 'Basic',
                     'phongMaterial' => 'Phong',
                     'standardMaterial' => 'Standard',
-                   
-                    
-                    
                     'toonMaterial' => 'Toon',
                     'normalMaterial' => 'Normals',
                     //'LambertMaterial' => 'Lambert',

@@ -2959,7 +2959,7 @@ class e_threed_base {
                 // FLOOR
                 
                 this.ambientGeometry = new THREE.PlaneGeometry(
-                    10, 10, 1,
+                    10, 10,
                      subdivision,  subdivision
                 ).translate( 0, 0, -1.9);
                
