@@ -14,7 +14,7 @@ class Threed extends Module_Base {
         parent::__construct();
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_assets']);        
         add_action('elementor/frontend/before_enqueue_styles', [$this, 'register_libs']);
-        add_filter('script_loader_tag', [$this,'add_type_attribute'] , 10, 3);
+        //add_filter('script_loader_tag', [$this,'add_type_attribute'] , 10, 3);
     }
     
     /**
@@ -65,11 +65,11 @@ class Threed extends Module_Base {
         wp_enqueue_style('3de-editor');
         
 
-        //wp_enqueue_script('e-addons-editor-xxx');
+        //wp_enqueue_script('e3d-editor-xxx');
     }
     public function add_type_attribute($tag, $handle, $src) {
         // if not your script, do nothing and return original $tag
-        if ( 'e-addons-geometry' !== $handle && 'e-addons-test' !== $handle ) {
+        if ( 'e3d-geometry' !== $handle && 'e3d-test' !== $handle ) {
             return $tag;
         }
         // change the script tag by adding type="module" and return it.
