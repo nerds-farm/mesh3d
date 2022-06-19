@@ -262,7 +262,6 @@ class Mesh extends Base_Widget {
 
         //
         $threejsPath = $this->get_module_url() . 'assets/lib/threejs/';
-        //$threejsPath = 'e-addons/wp-content/plugins/e-addons-threed/modules/threed/assets/lib/threejs/';
         $classExtend = $settings['viewport_extend'] ? ' e3d-viewport-extend' : '';
         ?>
         <script>

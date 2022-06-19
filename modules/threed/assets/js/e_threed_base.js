@@ -2023,7 +2023,6 @@ class e_threed_base {
         }
 
         const textureLoader = new THREE.TextureLoader();
-        //this.markerfile = 'http://localhost:8888/e-addons/wp-content/uploads/2022/05/sprite0.png'
         textureLoader.load( threejsPath+'assets/img/marker.png', createMarker );
         
     }
