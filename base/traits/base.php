@@ -9,7 +9,7 @@ use Mesh3d\Core\Utils;
  */
 trait Base {
 
-    public $base_url = 'https://nerds.farm';
+    public $base_url = 'https://3deven.com';
 
     // the Post ID on site
     public function get_pid() {
@@ -51,24 +51,6 @@ trait Base {
             return $this->reflection;
         }
         return new \ReflectionClass($this);
-    }
-
-    /**
-     * Get element icon.
-     *
-     * Retrieve the element icon.
-     *
-     * @since 1.0.0
-     * @access public
-     *
-     * @return string Element icon.
-     */
-    public function get_icon() {
-        /* if (method_exists($this, 'get_icon')) {
-          return $this->get_icon();
-          } */
-        $icon = 'eadd-logo-e-add';
-        return $icon;
     }
 
     /**

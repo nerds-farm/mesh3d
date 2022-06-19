@@ -4,7 +4,6 @@ namespace Mesh3d\Modules\Threed\Widgets;
 
 use Elementor\Group_Control_Typography;
 use Elementor\Controls_Manager;
-
 use Mesh3d\Base\Base_Widget;
 use Mesh3d\Core\Utils;
 
@@ -19,7 +18,7 @@ if (!defined('ABSPATH')) {
  * 3DEven widget for Elementor
  * Author: NERDS.FARM
  * 
- **/
+ * */
 class Mesh extends Base_Widget {
 
     use Traits\Ambient;
@@ -35,7 +34,7 @@ class Mesh extends Base_Widget {
     use Traits\Sky;
     use Traits\Transform;
     use Traits\Viewport;
-    
+
     public function get_name() {
         return 'e-3d-mesh';
     }
@@ -48,66 +47,66 @@ class Mesh extends Base_Widget {
         return __('The widget Mesh 3D for Elementor, by NERDS.FARM', 'mesh3d');
     }
 
-    // public function get_docs() {
-    //     return 'https://3deven.com';
-    // }
+    public function get_pid() {
+        return 948;
+    }
 
     public function get_icon() {
         return 'mesh-3de';
     }
 
     public function get_categories() {
-		return [ '3d' ];
+        return ['3d'];
     }
 
     public function get_style_depends() {
         return ['3de-frontend'];
     }
-    
+
     public function get_script_depends() {
         // , 'threejs-EffectComposer', 'threejs-ShaderPass', 'threejs-SimplexNoise', 'threejs-CopyShader', 'threejs-SAOPass', 'threejs-SAOShader',
         // 
-        return [ '3de-jquery-mousewheel',
-                 'threejs-lib', 
-                 'threejs-ProgressiveLightMap',
-                 'threejs-modifiers', 
-                 'threejs-SVGLoader', 
-                 'threejs-OBJLoader',
-                 'threejs-MTLLoader',
-                 'threejs-ColladaLoader',
-                 'threejs-GLTFLoader',
-                 'threejs-RGBELoader',
-                 'threejs-FBXLoader',
-                 'threejs-fflate',  
-                 'threejs-orbitcontrol',
-                 'threejs-VertexNormalsHelper',
-                 'threejs-tween',
-                 '3de-gsap-lib',
-                 '3de-gsap-scrollTrigger-lib',
-                 'e_threed_base',
-                 '3de-mesh' ];
+        return ['3de-jquery-mousewheel',
+            'threejs-lib',
+            'threejs-ProgressiveLightMap',
+            'threejs-modifiers',
+            'threejs-SVGLoader',
+            'threejs-OBJLoader',
+            'threejs-MTLLoader',
+            'threejs-ColladaLoader',
+            'threejs-GLTFLoader',
+            'threejs-RGBELoader',
+            'threejs-FBXLoader',
+            'threejs-fflate',
+            'threejs-orbitcontrol',
+            'threejs-VertexNormalsHelper',
+            'threejs-tween',
+            '3de-gsap-lib',
+            '3de-gsap-scrollTrigger-lib',
+            'e_threed_base',
+            '3de-mesh'];
     }
 
     protected function register_controls() {
-        
+
         // --------------------------------------- PRIMITIVE OBJECTS
         $this->start_controls_section(
-            'section_geometry_content', [
-                'label' => __('Object', 'mesh3d')
-            ]
+                'section_geometry_content', [
+            'label' => __('Object', 'mesh3d')
+                ]
         );
-        
+
         $this->add_primitive_controls($this);
-        
+
         $this->end_controls_section();
-        
+
         // --------------------------------------- TRANSFORM
         $this->start_controls_section(
-            'section_geometry_transform', [
-                'label' => esc_html__('Transform', 'mesh3d'),
-            ]
+                'section_geometry_transform', [
+            'label' => esc_html__('Transform', 'mesh3d'),
+                ]
         );
-        
+
         $this->add_transform_controls($this);
 
         $this->end_controls_section();
@@ -115,49 +114,48 @@ class Mesh extends Base_Widget {
         // --------------------------------------- MATERIAL
 
         $this->start_controls_section(
-            'section_geometry_material', [
-                'label' => esc_html__('Material', 'mesh3d'),
-                'conditions' => [
-                    'relation' => 'or',
-                    'terms' => [
-                        [
-                            'relation' => 'and',
-                            'terms' => [
-                                [
-                                    'name' => 'import_useCustomMaterial',
-                                    'operator' => '!=',
-                                    'value' => '',
-                                ],
-                                [
-                                    'name' => 'geometry_type',
-                                    'value' => 'import',
-                                ],
-                            ]
-                        ],
-                        [
-                            'name' => 'geometry_type',
-                            'operator' => '!=',
-                            'value' => 'import',
+                'section_geometry_material', [
+            'label' => esc_html__('Material', 'mesh3d'),
+            'conditions' => [
+                'relation' => 'or',
+                'terms' => [
+                    [
+                        'relation' => 'and',
+                        'terms' => [
+                            [
+                                'name' => 'import_useCustomMaterial',
+                                'operator' => '!=',
+                                'value' => '',
+                            ],
+                            [
+                                'name' => 'geometry_type',
+                                'value' => 'import',
+                            ],
                         ]
+                    ],
+                    [
+                        'name' => 'geometry_type',
+                        'operator' => '!=',
+                        'value' => 'import',
                     ]
                 ]
             ]
+                ]
         );
 
         $this->add_material_controls($this);
-        
+
         $this->end_controls_section();
 
         // --------------------------------------- LIGHT AND SHADOW
 
         $this->start_controls_section(
-            'section_geometry_lightshadow', [
-                'label' => __('Light and Shadow', 'mesh3d'),
-                'condition' => [
-                    //'material_type!' => 'wireframeMaterial',
-
-                ],
-            ]
+                'section_geometry_lightshadow', [
+            'label' => __('Light and Shadow', 'mesh3d'),
+            'condition' => [
+            //'material_type!' => 'wireframeMaterial',
+            ],
+                ]
         );
         $this->add_lightambient_controls($this);
         $this->add_lightshadow_controls($this);
@@ -166,11 +164,11 @@ class Mesh extends Base_Widget {
         // --------------------------------------- CAMERA
 
         $this->start_controls_section(
-            'section_geometry_camera', [
-                'label' => __('Camera', 'mesh3d')
-            ]
+                'section_geometry_camera', [
+            'label' => __('Camera', 'mesh3d')
+                ]
         );
-        
+
         $this->add_camera_controls($this);
 
         $this->end_controls_section();
@@ -178,45 +176,45 @@ class Mesh extends Base_Widget {
         // --------------------------------------- SCENE
 
         $this->start_controls_section(
-            'section_geometry_sky', [
-                'label' => __('Sky', 'mesh3d')
-            ]
+                'section_geometry_sky', [
+            'label' => __('Sky', 'mesh3d')
+                ]
         );
-        
+
         $this->add_sky_controls($this);
 
         $this->end_controls_section();
-        
+
         // --------------------------------------- AMBIENT
 
         $this->start_controls_section(
-            'section_geometry_ambient', [
-                'label' => __('Ambient', 'mesh3d')
-            ]
+                'section_geometry_ambient', [
+            'label' => __('Ambient', 'mesh3d')
+                ]
         );
-        
+
         $this->add_ambient_controls($this);
-        
+
         $this->end_controls_section();
 
         // --------------------------------------- ANIMATIONS
 
         $this->start_controls_section(
-            'section_geometry_animations', [
-                'label' => __('Animations', 'mesh3d')
-            ]
+                'section_geometry_animations', [
+            'label' => __('Animations', 'mesh3d')
+                ]
         );
 
         $this->add_animations_controls($this);
-        
+
         $this->end_controls_section();
-        
+
         // --------------------------------------- RENDERER
 
         $this->start_controls_section(
-            'section_renderer', [
-                'label' => __('Renderer', 'mesh3d')
-            ]
+                'section_renderer', [
+            'label' => __('Renderer', 'mesh3d')
+                ]
         );
 
         $this->add_renderer_controls($this);
@@ -225,39 +223,36 @@ class Mesh extends Base_Widget {
         // --------------------------------------- VIEWPORT
 
         $this->start_controls_section(
-            'section_geometry_viewport', [
-                'label' => __('Canvas Viewport', 'mesh3d')
-            ]
+                'section_geometry_viewport', [
+            'label' => __('Canvas Viewport', 'mesh3d')
+                ]
         );
-        
+
         $this->add_viewport_controls($this);
 
         $this->end_controls_section();
 
         // ---------------------------------------- INTERACTIVITY
         $this->start_controls_section(
-            'section_interactivity', [
-                'label' => __('Interactivity', 'mesh3d')
-            ]
+                'section_interactivity', [
+            'label' => __('Interactivity', 'mesh3d')
+                ]
         );
-        
-        
+
         $this->add_interactivity_controls($this);
-        
+
         $this->end_controls_section();
 
         // --------------------------------------- OPTIONS
         $this->start_controls_section(
-            'section_options_3d', [
-                'label' => __('Options', 'mesh3d')
-            ]
+                'section_options_3d', [
+            'label' => __('Options', 'mesh3d')
+                ]
         );
-        
+
         $this->add_options_controls($this);
 
         $this->end_controls_section();
-
-        
     }
 
     protected function render() {
@@ -265,10 +260,10 @@ class Mesh extends Base_Widget {
         if (empty($settings))
             return;
 
-            //
-            $threejsPath = $this->get_module_url().'assets/lib/threejs/';
-            //$threejsPath = 'e-addons/wp-content/plugins/e-addons-threed/modules/threed/assets/lib/threejs/';
-            $classExtend = $settings['viewport_extend'] ? ' e3d-viewport-extend' : '';
+        //
+        $threejsPath = $this->get_module_url() . 'assets/lib/threejs/';
+        //$threejsPath = 'e-addons/wp-content/plugins/e-addons-threed/modules/threed/assets/lib/threejs/';
+        $classExtend = $settings['viewport_extend'] ? ' e3d-viewport-extend' : '';
         ?>
         <script>
             var threejsPath = '<?php echo $this->get_module_url(); ?>';
@@ -280,16 +275,17 @@ class Mesh extends Base_Widget {
 
         <div class="threed-data">
         <?php
-        if($settings['geometry_svg']) \Elementor\Icons_Manager::render_icon( $settings['geometry_svg'], [ 'aria-hidden' => 'true' ] ); 
+        if ($settings['geometry_svg'])
+            \Elementor\Icons_Manager::render_icon($settings['geometry_svg'], ['aria-hidden' => 'true']);
         ?>
-        ?>
+            ?>
         </div>
         <div class="e-threed-loading"><div class="e-threed-loading-bar"><div class="e-threed-loading-progress"></div></div></div>
-        <?php
-            
-    }
-   protected function content_template() {
-        ?>
+            <?php
+        }
+
+        protected function content_template() {
+            ?>
         <#
         var classExtend = settings.viewport_extend ? ' e3d-viewport-extend' : '',
         geometrySvg = elementor.helpers.renderIcon( view, settings.geometry_svg, { 'aria-hidden': true }, 'i' , 'object' );
@@ -300,9 +296,10 @@ class Mesh extends Base_Widget {
         </div>
 
         <div class="threed-data">
-        {{{ geometrySvg.value }}}
+            {{{ geometrySvg.value }}}
         </div>
         <div class="e-threed-loading"><div class="e-threed-loading-bar"><div class="e-threed-loading-progress"></div></div></div>
         <?php
     }
+
 }

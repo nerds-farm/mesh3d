@@ -87,7 +87,7 @@ abstract class Module_Base extends Module {
         $plugin_path = Utils::get_plugin_path($class_name);
         $path = $plugin_path . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR;
         if (is_dir($path)) {
-            $files = Utils::glob($path . '*.php');
+            $files = glob($path . '*.php');
             return !empty($files);
         }
         return false;
@@ -102,7 +102,7 @@ abstract class Module_Base extends Module {
         //if ($folder == 'triggers' && $module == 'display') { return $elements; }
         if (is_dir($path)) {
 
-            $files = Utils::glob($path . '*.php');
+            $files = glob($path . '*.php');
             //$files = array_filter(glob(DIRECTORY_SEPARATOR."*"), 'is_file');
 
             foreach ($files as $ele) {

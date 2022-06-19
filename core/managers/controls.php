@@ -24,7 +24,7 @@ final class Controls {
         $elements = array();
         $path = MESH_3D_PATH . 'core' . DIRECTORY_SEPARATOR . 'controls' . DIRECTORY_SEPARATOR;
         if (is_dir($path)) {
-            $files = Utils::glob($path . '*.php');
+            $files = glob($path . '*.php');
             //$files = array_filter(glob(DIRECTORY_SEPARATOR."*"), 'is_file');
             foreach ($files as $ele) {
                 $file = basename($ele);
@@ -38,7 +38,7 @@ final class Controls {
         $elements = array();
         $path = MESH_3D_PATH . 'core' . DIRECTORY_SEPARATOR . 'controls' . DIRECTORY_SEPARATOR. 'groups' . DIRECTORY_SEPARATOR;
         if (is_dir($path)) {
-            $files = Utils::glob($path . '*.php');
+            $files = glob($path . '*.php');
             foreach ($files as $ele) {
                 $file = basename($ele);
                 $name = pathinfo($file, PATHINFO_FILENAME);
