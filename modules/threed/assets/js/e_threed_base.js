@@ -1837,26 +1837,14 @@ class e_threed_base {
     updateParamsRenderer(){
         
     }
+
+
+
     generateCamera(){
-        // -------------------------
-        // CAMERA
-        // fov, aspect, near, far
-        // X - Y - Z
+       
 
-        let ratio = this.canvasW / this.canvasH;
-        this.camera = new THREE.PerspectiveCamera(this.cameraFov, ratio, 1, 10000);
-        // da perfezionere NEAR-FAR .....
-        this.camera.zoom = this.cameraZoom;
-        this.camera.position.set( this.cameraPosX, this.cameraPosY, this.cameraPosZ );
-
-        // if(this.cameraLookat && this.primitive_mesh)
-        // this.camera.lookAt(this.primitive_mesh);
+        this.updateCamera();
         
-        if(this.cameraLookat){
-            this.camera.lookAt( this.scene.position );
-         }else{
-             this.camera.lookAt(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-         }
 
         /*
         const fov = 75;
@@ -1871,11 +1859,12 @@ class e_threed_base {
            this.updateHelpers('camera');     
         }
         
-        // lo spot da camera per creare una luce base (added.)
-        const pointLight = new THREE.PointLight( 0xffffff, 0.4 );
-        this.camera.add( pointLight );
+        // lo spot da camera per creare una luce base (added...)
+        //const camLight = new THREE.PointLight( 0xffffff, 0.4 );
+        const camLight = new THREE.DirectionalLight( 0xffffff, 0.3 );
+        this.camera.add( camLight );
         this.scene.add( this.camera );
-
+        
     }
     updateCamera(){
         // -------------------------
@@ -1889,28 +1878,37 @@ class e_threed_base {
                 this.camera = new THREE.PerspectiveCamera(this.cameraFov, this.ratio, 0.1, 1000);
             break;
             case 'orthographic':
-                this.camera = new THREE.OrthographicCamera( this.frustumSize * this.ratio / - 2, this.frustumSize * this.ratio / 2, this.frustumSize / 2, this.frustumSize / - 2, 0.1, 1000 );
+                this.camera = new THREE.OrthographicCamera( this.frustumSize * this.ratio / - 2, this.frustumSize * this.ratio / 2, this.frustumSize / 2, this.frustumSize / - 2, 1, 1000 );
             break;
         }
         this.updateParamsCamera();
     }
     updateParamsCamera(){
+        
         this.camera.fov = this.cameraFov;
         this.camera.zoom = this.cameraZoom;
-        if(this.cameraLookat){
-            this.camera.lookAt( this.scene.position );
-        }else{
-            this.camera.lookAt(this.cameraTargetX, this.cameraTargetY, this.cameraTargetZ);
-        }
+
+        this.camera.position.set( this.cameraPosX, this.cameraPosY, this.cameraPosZ );
         
-        // this.camera.position.set( this.cameraPosX, this.cameraPosY, this.cameraPosZ );
+        this.updateCamTarget();
+
+        this.camera.updateProjectionMatrix();
     }
-
-
-
     resetCamera(){
+        //riprendono le interattività
+        this.pointIsActive = false;
+        // this.interactivityType = this.elementSettings.interactivity_type;
+        // this.updateControls();
+        //
         this.cameraToTween();
     }
+
+
+
+
+
+
+
     updateDataMarker(index, element, sprm){
         let cam = {};
         let marker_posx = element.hp_x.size || 0,

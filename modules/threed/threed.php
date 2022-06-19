@@ -28,8 +28,10 @@ class Threed extends Module_Base {
 
         //Controls
         $this->register_script( 'threejs-orbitcontrol', 'assets/lib/threejs/js/controls/OrbitControls.js', ['threejs-lib'], '1.2.3' );
+        
         //mmmmmm
         $this->register_script( 'threejs-ProgressiveLightMap', 'assets/lib/threejs/js/misc/ProgressiveLightMap.js', ['threejs-lib'], '1.2.3' );
+        
         //imports
         $this->register_script( 'threejs-SVGLoader', 'assets/lib/threejs/js/loaders/SVGLoader.js', ['threejs-lib'], '1.2.3' );
         $this->register_script( 'threejs-OBJLoader', 'assets/lib/threejs/js/loaders/OBJLoader.js', ['threejs-lib'], '1.2.3' );
