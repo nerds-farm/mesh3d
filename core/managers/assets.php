@@ -76,7 +76,7 @@ final class Assets {
     public static function find_assets($assets_path = '', $type = 'css') {
         $assets = array();
         if (is_dir($assets_path . $type)) {
-            $files = Utils::glob($assets_path . $type . DIRECTORY_SEPARATOR . '*.' . $type);
+            $files = glob($assets_path . $type . DIRECTORY_SEPARATOR . '*.' . $type);
             foreach ($files as $ass) {
                 $assets[] = $ass;
                 self::$assets[] = $ass;

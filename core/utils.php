@@ -126,5 +126,10 @@ class Utils {
     public static function slug_to_camel($title, $separator = '') {
         return Helper::slug_to_camel($title, $separator);
     }
+    
+    public static function get_wp_plugin_dir() {        
+        return \Mesh3d\Core\Helper::get_wp_plugin_dir();
+    }
+    
 
 }
