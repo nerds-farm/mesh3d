@@ -38,9 +38,10 @@ jQuery(window).on('elementor/frontend/init', () => {
             
             ////////////////////////////////////////////////////////////////////
             
-            
+           
             let THREED = new e_threed_base(this.elements,this.elementSettings);
             //this.elements.$threed = THREED;
+            
             THREED.init(id_scope);
 
             this.scope.data('THREED',THREED);

@@ -339,7 +339,7 @@ class e_threed_base {
         this.ambientColor = this.elementSettings.ambient_color || 0xFFFFFF;
         
         this.ambientWireframeMode = Boolean(this.elementSettings.ambient_wireframe_mode) || false;
-        this.ambientSkyColor = this.elementSettings.sky_color || 0x000000;
+        this.ambientSkyColor = this.elementSettings.sky_color || 0xFFFFFF;
         this.ambientSkyPath = this.elementSettings.sky_image ? this.elementSettings.sky_image.url : '';
         
         // materials
@@ -434,12 +434,6 @@ class e_threed_base {
     }
      // INIT +++++++++++++++++++++++++
      init($id){
-
-        // ------------------------------------------------
-        this.oggetti[$id] = {
-            paaa: 'ciao',
-
-        }
         
         // ------------------------------------------------
 
@@ -555,42 +549,7 @@ class e_threed_base {
 
     
     /************************ METHODS *********************** */
-    test3d(){
-        alert(this.id_scope);
-    }
-    pointTest($id){
-       //voglio rendere visibile un punto
-        const spherepoint = new THREE.SphereGeometry( 0.05, 16, 8 );
-        let color = new THREE.Color( 0xffffff );
-        color.setHex( Math.random() * 0xffffff );
-        let mymaterial = new THREE.MeshBasicMaterial( { color: color });
-        this.mypoint = new THREE.Mesh( spherepoint, mymaterial );
-        this.mypoint.position.x = Math.random() * 2 - 1;;
-        
-        //this.mypoint.position.set(1,0,1);
-        this.oggetti[$id] = {
-            geometry: spherepoint,
-            primitive_mesh: this.mypoint,
-            material: mymaterial
-
-        }
-        this.scene.add( this.oggetti[$id].primitive_mesh );
-    }
-    delete_pointTest($id){
-        
-        this.oggetti[$id].geometry.dispose();
-        this.oggetti[$id].material.dispose();
-        //this.oggetti[$id].primitive_mesh.dispose();
-
-        this.scene.remove( this.oggetti[$id].primitive_mesh );
-        this.oggetti[$id].primitive_mesh = null;
-
-        const index = this.oggetti.indexOf($id);
-        if (index > -1) {
-            this.oggetti.splice(index, 1);
-        }
-    }
-   
+    
     windowResize(){
         this.updateData3d_viewport();
         
@@ -773,11 +732,12 @@ class e_threed_base {
     }
     //
     meshConstructor(){
-
+        
         if(this.geometryType == 'import'){
 
 
             this.importModel(this.import_format_type,(ob) => {
+                if(!ob) return;
 
                 this.primitive_mesh = ob;
                 
@@ -786,7 +746,7 @@ class e_threed_base {
 
                 // .....
                 //@p aggiungo la forma alla scena
-                this.scene.add( this.primitive_mesh );
+                this.scene.add( ob );
                 
             });
             
@@ -2315,7 +2275,6 @@ class e_threed_base {
             // this.modifier.apply
             this.modifier && this.modifier.apply();
             
-            TWEEN.update();
            
             //ANIMATIONS ColladaDAE
             const delta = this.clock.getDelta();
@@ -2623,6 +2582,7 @@ class e_threed_base {
         //alert('file not found')
     }
     importModel($importType, $cb = null){
+        
         // load
         switch($importType){
             case 'obj':
@@ -2756,7 +2716,7 @@ class e_threed_base {
 
         } );
 
-        //HDR è DA CAPIRE....
+        //HDR è DA CAPIRE.... todo
         function startloadHDR(){
             new THREE.RGBELoader()
             .setPath( 'textures/equirectangular/' )
@@ -2786,6 +2746,13 @@ class e_threed_base {
                     // gltf.asset; // Object
 
                     //console.log(gltf.scene);
+                    // alert('mixer animations: '+gltf.animations.length)
+                    if(_this.oggetti[$id].settings.importAnimationMixer){
+                        // model.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
+                         _this.mixer = new THREE.AnimationMixer( gltf.scene );
+                         const action = _this.mixer.clipAction( gltf.animations[ _this.indexAnimationMixer ] );
+                         action.play();
+                     }
 
                     _this.scaleModel(gltf.scene,2);
 
@@ -2800,8 +2767,10 @@ class e_threed_base {
     
     importModelFBX($cb = null){
         let _this = this;
+       
         // loading manager
         const loadingManager = new THREE.LoadingManager( function () {
+            if( _this.primitive_mesh )
             _this.primitive_mesh.traverse( function ( child ) {
                 if ( child.isSkinnedMesh ) {
                     
@@ -2841,12 +2810,13 @@ class e_threed_base {
         const loader = new THREE.FBXLoader(loadingManager)
         .setPath( _this.import_folder_path )
         .load( _this.import_file_name+'.'+_this.import_format_type, function ( object ) {
-
+            console.log(object);
+            
             // -----ANIM-----
-            if(_this.importAnimationMixer){
+            if(_this.importAnimationMixer && object.animations.length){
                 // model.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
-                 _this.mixer = new THREE.AnimationMixer( gltf.scene );
-                 const action = _this.mixer.clipAction( gltf.animations[ _this.indexAnimationMixer ] );
+                 _this.mixer = new THREE.AnimationMixer( object );
+                 const action = _this.mixer.clipAction( object.animations[ _this.indexAnimationMixer ] );
                  action.play();
              }
             
@@ -2911,8 +2881,8 @@ class e_threed_base {
                 // -----ANIM-----
                 if(_this.importAnimationMixer){
                     // model.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
-                     _this.mixer = new THREE.AnimationMixer( gltf.scene );
-                     const action = _this.mixer.clipAction( gltf.animations[ _this.indexAnimationMixer ] );
+                     _this.mixer = new THREE.AnimationMixer( collada.scene );
+                     const action = _this.mixer.clipAction( collada.animations[ _this.indexAnimationMixer ] );
                      action.play();
                  }
                 
@@ -2958,7 +2928,7 @@ class e_threed_base {
                 // *********************+************
                 // FLOOR
                 
-                this.ambientGeometry = new THREE.BoxGeometry(
+                this.ambientGeometry = new THREE.PlaneGeometry(
                     10, 10, 1,
                      subdivision,  subdivision
                 ).translate( 0, 0, -1.9);
@@ -3045,10 +3015,13 @@ class e_threed_base {
         if(this.ambientSkyPath != ''){
             const textureLoader = new THREE.TextureLoader();
 
-            this.sky_texture = textureLoader.load( this.ambientSkyPath );
-            this.sky_texture.mapping = THREE.EquirectangularReflectionMapping;
-            //this.sky_texture.encoding = THREE.sRGBEncoding;
+            this.sky_texture = textureLoader.load( this.ambientSkyPath, (texture) => {
+                this.sky_texture.mapping = THREE.EquirectangularReflectionMapping; // pippo
+                //this.sky_texture.encoding = THREE.sRGBEncoding;
+                this.scene.environment = texture;
+            });
         }else{
+            this.scene.environment = null;
             this.sky_texture = null;
         }
     }
@@ -3416,6 +3389,7 @@ class e_threed_base {
     }
     
     updateGeometryMesh(){
+        
         this.clean3DMesh();
         this.meshConstructor();
     }
@@ -3739,18 +3713,16 @@ class e_threed_base {
         }
         if ('sky_image' === propertyName) {
             this.ambientSkyPath = this.elementSettings.sky_image ? this.elementSettings.sky_image.url : '';
-             /*
-            this.updateData3d();
-            this.updateMaterial();
-            this.updateGeometryMesh();
+            this.ambientSkyColor = this.elementSettings['sky_color'] || 0xFFFFFF;
 
-            this.render();
-
-            */
             this.clean3DskyImage()
             this.generateSkyImage();
-
-            this.scene.background = this.sky_texture;
+            
+            if(this.ambientSkyPath){
+                this.scene.background = this.sky_texture;
+            }else{
+                this.scene.background = new THREE.Color(this.ambientSkyColor);
+            }
             this.render();
         }
         if ('sky_hide' === propertyName) {
@@ -3779,9 +3751,16 @@ class e_threed_base {
         }
         // SCENE FOG
         if ('ambient_fog' === propertyName) {
+            
             this.fogAmbient = Boolean(this.elementSettings.ambient_fog) || false;
+            this.ambientMaterial.isFog = this.fogAmbient;
+            
             this.updateParamsSceneFog();
-            this.updateParamsMaterialFog(this.material);         
+            this.updateParamsMaterialFog( this.ambientMaterial);  
+            
+            this.clean3DAmbient();
+            this.generateAmbient();
+            
             this.render();
         }
 
@@ -4293,7 +4272,7 @@ class e_threed_base {
                 break;
                 default:
                     this.clean3DControls();
-                    this.resetCamera($id);
+                    this.resetCamera();
 
             }
             this.updateParamsCamera();
