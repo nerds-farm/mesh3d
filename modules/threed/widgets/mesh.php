@@ -284,7 +284,7 @@ class Mesh extends Base_Widget {
         ?>
         ?>
         </div>
-        
+        <div class="e-threed-loading"><div class="e-threed-loading-bar"><div class="e-threed-loading-progress"></div></div></div>
         <?php
             
     }
@@ -302,7 +302,7 @@ class Mesh extends Base_Widget {
         <div class="threed-data">
         {{{ geometrySvg.value }}}
         </div>
-
+        <div class="e-threed-loading"><div class="e-threed-loading-bar"><div class="e-threed-loading-progress"></div></div></div>
         <?php
     }
 }

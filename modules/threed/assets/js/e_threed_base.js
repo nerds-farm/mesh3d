@@ -739,14 +739,20 @@ class e_threed_base {
             this.importModel(this.import_format_type,(ob) => {
                 if(!ob) return;
 
+            
                 this.primitive_mesh = ob;
-                
+            
                 this.positionMesh();
                 this.updateShadowsMesh();
 
+                
                 // .....
                 //@p aggiungo la forma alla scena
                 this.scene.add( ob );
+
+                console.log(this.scene)
+                
+                
                 
             });
             
@@ -2568,13 +2574,23 @@ class e_threed_base {
 
 
     // --------------------------- LOAD
-    onProgress( xhr ) {
-
-        if ( xhr.lengthComputable ) {
-
+    onProgress = ( xhr ) => {
+        if ( xhr.lengthComputable ) {    
             const percentComplete = xhr.loaded / xhr.total * 100;
-            console.log( 'model ' + Math.round( percentComplete, 2 ) + '% downloaded' );
+            //console.log( 'model ' + Math.round( percentComplete, 2 ) + '% downloaded' );
 
+            let thebar      = this.scope.find('.e-threed-loading .e-threed-loading-progress'),
+                theloading  = this.scope.find('.e-threed-loading');
+            
+            // LOADING..
+            theloading.show();
+            gsap.to(thebar,{width: Math.round( percentComplete, 2 )+'%', onComplete: () => { 
+
+                if(percentComplete > 99){
+                    theloading.hide();
+                }
+
+            }, });
         }
     }
 
@@ -2582,8 +2598,12 @@ class e_threed_base {
         //alert('file not found')
     }
     importModel($importType, $cb = null){
-        
-        // load
+        let stime = 0;
+        if(elementorFrontend.isEditMode()){
+            stime = 400;
+        }
+        setTimeout(()=>{ 
+            // load
         switch($importType){
             case 'obj':
                 this.importModelOBJ($cb);
@@ -2599,6 +2619,9 @@ class e_threed_base {
                 this.importModelFBX($cb);
                 break;
         }
+
+        },400)
+        
         
     }
     importModelOBJ($cb = null){
@@ -2826,7 +2849,7 @@ class e_threed_base {
 
             _this.primitive_mesh = _this.themodel;
            
-        } );
+        }, _this.onProgress, _this.onError );
     }
     importModelDAE($cb = null){
         let _this = this;
