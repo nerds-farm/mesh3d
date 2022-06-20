@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'mesh3d';
-  src: url('../font/mesh3d.eot?43532805');
-  src: url('../font/mesh3d.eot?43532805#iefix') format('embedded-opentype'),
-       url('../font/mesh3d.woff2?43532805') format('woff2'),
-       url('../font/mesh3d.woff?43532805') format('woff'),
-       url('../font/mesh3d.ttf?43532805') format('truetype'),
-       url('../font/mesh3d.svg?43532805#mesh3d') format('svg');
+  src: url('../font/threedeven.eot?43532805');
+  src: url('../font/threedeven.eot?43532805#iefix') format('embedded-opentype'),
+       url('../font/threedeven.woff2?43532805') format('woff2'),
+       url('../font/threedeven.woff?43532805') format('woff'),
+       url('../font/threedeven.ttf?43532805') format('truetype'),
+       url('../font/threedeven.svg?43532805#mesh3d') format('svg');
   font-weight: normal;
   font-style: normal;
 }

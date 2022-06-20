@@ -55,7 +55,6 @@ class Threed extends Module_Base {
         
         
         //$this->register_style( 'xxx-lib', 'assets/lib/xxx/xxx.min.css' );
-        wp_enqueue_style('mesh3d-icons');        
     }
 
     /**
@@ -65,7 +64,7 @@ class Threed extends Module_Base {
      */
     public function enqueue_editor_assets() {
         wp_enqueue_style('3de-editor');
-        
+        wp_enqueue_style('threedeven-icons');    
 
         //wp_enqueue_script('e3d-editor-xxx');
     }
