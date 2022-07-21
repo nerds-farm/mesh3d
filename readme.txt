@@ -2,7 +2,7 @@
 Contributors: nerdsfarm, poglie, frapesce
 Author URI: https://nerds.farm/
 Plugin URL: https://3deven.com/mesh3d-for-elementor/
-Tags: elementor, 3d, threejs, creative, mesh, object, widget, svg, design
+Tags: 3d, threejs, creative, mesh, object, widget, svg, design, elementor
 Requires at least: 5.0
 Tested up to: 6.1
 Elementor tested up to: 3.7.0

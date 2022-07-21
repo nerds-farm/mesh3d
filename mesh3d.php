@@ -3,8 +3,8 @@
 /**
  *
  * @wordpress-plugin
- * Plugin Name:       Mesh 3D for Elementor
- * Plugin URI:        https://nerds.farm
+ * Plugin Name:       Mesh3D
+ * Plugin URI:        https://3deven.com/mesh3d-for-elementor/
  * Description:       Manage 3D object into your page with Elementor 
  * Version:           1.0
  * Author:            Nerds Farm
